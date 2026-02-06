@@ -141,10 +141,16 @@ function showLoading(show = true) {
   }
 }
 
-// Show Error Toast
-function showError(message) {
+// Show Toast Message
+function showToast(message, isError = false) {
   elements.toastMessage.textContent = message;
   elements.errorToast.style.display = 'flex';
+  
+  // Change icon based on type
+  const icon = elements.errorToast.querySelector('.toast-icon');
+  if (icon) {
+    icon.textContent = isError ? '⚠️' : '✅';
+  }
   
   setTimeout(() => {
     elements.errorToast.style.display = 'none';
@@ -176,7 +182,7 @@ async function loadData(forceRefresh = false) {
     
   } catch (error) {
     console.error('Error loading data:', error);
-    showError('Failed to load live data. Showing demo mode.');
+    showToast('Failed to load live data. Showing demo mode.', true);
     
     // Use demo data
     const demoData = {
@@ -276,7 +282,11 @@ function initChart() {
   // Check if Chart.js is available
   if (typeof Chart === 'undefined') {
     console.warn('Chart.js not loaded - historical chart will not be available');
-    ctx.parentElement.innerHTML = '<p style="text-align: center; padding: 3rem; color: var(--text-secondary);">📊 Historical chart requires Chart.js library<br><small>The library may be blocked by browser security settings</small></p>';
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'chart-unavailable-message';
+    messageDiv.innerHTML = '<p>📊 Historical chart requires Chart.js library<br><small>The library may be blocked by browser security settings</small></p>';
+    ctx.parentElement.appendChild(messageDiv);
+    ctx.style.display = 'none';
     return;
   }
   
@@ -428,9 +438,9 @@ elements.shareBtn.addEventListener('click', async () => {
     // Fallback: copy to clipboard
     try {
       await navigator.clipboard.writeText(`${text}\n${url}`);
-      showError('Link copied to clipboard!');
+      showToast('Link copied to clipboard!', false);
     } catch (err) {
-      showError('Failed to share. Please copy the URL manually.');
+      showToast('Failed to share. Please copy the URL manually.', true);
     }
   }
 });
@@ -439,8 +449,8 @@ elements.shareBtn.addEventListener('click', async () => {
 function checkExtremeNotification(value, label) {
   if ('Notification' in window && Notification.permission === 'granted') {
     new Notification('Extreme Market Sentiment Alert', {
-      body: `Fear & Greed Index: ${value} (${label})`,
-      icon: '/favicon.ico'
+      body: `Fear & Greed Index: ${value} (${label})`
+      // Note: icon path omitted as favicon may not exist
     });
   }
 }

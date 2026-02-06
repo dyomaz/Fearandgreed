@@ -172,27 +172,35 @@ class NewsManager {
       return;
     }
     
+    // Helper to escape HTML
+    const escapeHtml = (text) => {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    };
+    
     container.innerHTML = articles.map(article => `
-      <div class="news-card" data-sentiment="${article.sentiment}">
+      <div class="news-card" data-sentiment="${escapeHtml(article.sentiment)}">
         <div class="news-image-container">
           ${article.image ? 
-            `<img src="${article.image}" alt="${article.title}" class="news-image" loading="lazy" onerror="this.src='https://via.placeholder.com/400x200?text=News'">` :
+            `<img src="${escapeHtml(article.image)}" alt="${escapeHtml(article.title)}" class="news-image" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+             <div class="news-image-placeholder" style="display:none;">📰</div>` :
             `<div class="news-image-placeholder">📰</div>`
           }
           ${article.sentiment !== 'neutral' ? 
-            `<span class="sentiment-badge sentiment-${article.sentiment}">${article.sentiment}</span>` : 
+            `<span class="sentiment-badge sentiment-${escapeHtml(article.sentiment)}">${escapeHtml(article.sentiment)}</span>` : 
             ''
           }
         </div>
         <div class="news-content">
-          <h3 class="news-title">${article.title}</h3>
-          <p class="news-description">${article.description || ''}</p>
+          <h3 class="news-title">${escapeHtml(article.title)}</h3>
+          <p class="news-description">${escapeHtml(article.description || '')}</p>
           <div class="news-meta">
-            <span class="news-source">${article.source}</span>
+            <span class="news-source">${escapeHtml(article.source)}</span>
             <span class="news-time">${this.getRelativeTime(article.publishedAt)}</span>
           </div>
           ${article.url !== '#' ? 
-            `<a href="${article.url}" target="_blank" rel="noopener noreferrer" class="news-link">Read more →</a>` :
+            `<a href="${escapeHtml(article.url)}" target="_blank" rel="noopener noreferrer" class="news-link">Read more →</a>` :
             '<span class="news-mock-indicator">(Demo article)</span>'
           }
         </div>

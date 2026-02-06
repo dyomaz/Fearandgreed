@@ -26,7 +26,11 @@ class FearGreedAPI {
   // Fetch Crypto Fear & Greed Index from Alternative.me
   async fetchCryptoIndex() {
     try {
-      const response = await fetch('https://api.alternative.me/fng/?limit=30');
+      const config = window.CONFIG || {};
+      const apiUrl = config.CRYPTO_API_URL || 'https://api.alternative.me/fng/';
+      const limit = config.CRYPTO_API_LIMIT || 30;
+      
+      const response = await fetch(`${apiUrl}?limit=${limit}`);
       if (!response.ok) throw new Error('Failed to fetch crypto index');
       
       const data = await response.json();

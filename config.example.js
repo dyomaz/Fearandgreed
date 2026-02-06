@@ -17,7 +17,11 @@ const CONFIG = {
   API_REFRESH_INTERVAL: 5 * 60 * 1000,
   
   // News refresh interval in milliseconds (default: 15 minutes)
-  NEWS_REFRESH_INTERVAL: 15 * 60 * 1000
+  NEWS_REFRESH_INTERVAL: 15 * 60 * 1000,
+  
+  // API endpoints
+  CRYPTO_API_URL: 'https://api.alternative.me/fng/',
+  CRYPTO_API_LIMIT: 30
 };
 
 // Make config available globally

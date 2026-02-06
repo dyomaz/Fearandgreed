@@ -689,6 +689,19 @@ body {
     color: #ffd600;
 }
 
+/* Chart unavailable message */
+.chart-unavailable-message {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-secondary);
+}
+
+.chart-unavailable-message small {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+}
+
 /* Toast Notifications */
 .toast {
     position: fixed;
