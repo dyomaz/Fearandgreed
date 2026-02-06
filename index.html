@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fear & Greed Index</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Fear & Greed Index</h1>
+            <p class="subtitle">Market Sentiment Indicator</p>
+        </header>
+
+        <main>
+            <div class="gauge-container">
+                <svg class="gauge" viewBox="0 0 200 120">
+                    <!-- Gauge background arcs -->
+                    <path d="M 20 100 A 80 80 0 0 1 180 100" 
+                          fill="none" 
+                          stroke="#d32f2f" 
+                          stroke-width="20" 
+                          stroke-linecap="round"/>
+                    <path d="M 35.2 85.2 A 80 80 0 0 1 68 38" 
+                          fill="none" 
+                          stroke="#ff6f00" 
+                          stroke-width="20" 
+                          stroke-linecap="round"/>
+                    <path d="M 76 32.8 A 80 80 0 0 1 124 32.8" 
+                          fill="none" 
+                          stroke="#ffd600" 
+                          stroke-width="20" 
+                          stroke-linecap="round"/>
+                    <path d="M 132 38 A 80 80 0 0 1 164.8 85.2" 
+                          fill="none" 
+                          stroke="#7cb342" 
+                          stroke-width="20" 
+                          stroke-linecap="round"/>
+                    <path d="M 168 92 A 80 80 0 0 1 180 100" 
+                          fill="none" 
+                          stroke="#2e7d32" 
+                          stroke-width="20" 
+                          stroke-linecap="round"/>
+                    
+                    <!-- Center circle -->
+                    <circle cx="100" cy="100" r="8" fill="#333"/>
+                    
+                    <!-- Needle -->
+                    <line id="needle" 
+                          x1="100" 
+                          y1="100" 
+                          x2="100" 
+                          y2="35" 
+                          stroke="#fff" 
+                          stroke-width="3" 
+                          stroke-linecap="round"/>
+                </svg>
+
+                <div class="labels">
+                    <span class="label-left">Extreme Fear</span>
+                    <span class="label-right">Extreme Greed</span>
+                </div>
+            </div>
+
+            <div class="index-display">
+                <div class="index-value" id="indexValue">50</div>
+                <div class="index-label" id="indexLabel">Neutral</div>
+            </div>
+
+            <div class="controls">
+                <div class="slider-container">
+                    <input type="range" 
+                           id="slider" 
+                           min="0" 
+                           max="100" 
+                           value="50" 
+                           class="slider">
+                </div>
+
+                <div class="buttons">
+                    <button class="btn" data-value="10">Extreme Fear</button>
+                    <button class="btn" data-value="30">Fear</button>
+                    <button class="btn" data-value="50">Neutral</button>
+                    <button class="btn" data-value="70">Greed</button>
+                    <button class="btn" data-value="90">Extreme Greed</button>
+                </div>
+
+                <button class="btn btn-random" id="randomBtn">Random Value</button>
+            </div>
+
+            <div class="info">
+                <p>The Fear & Greed Index measures market sentiment on a scale from 0 to 100. 
+                Lower values indicate extreme fear, while higher values indicate extreme greed.</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
