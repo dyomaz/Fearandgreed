@@ -267,7 +267,18 @@
     </div>
 
     <!-- Scripts -->
-    <script src="config.example.js"></script>
+    <script>
+    // Inline config for testing (falls back to demo mode)
+    const CONFIG = {
+      NEWS_API_KEY: 'demo_mode',
+      RAPID_API_KEY: 'demo_mode',
+      API_REFRESH_INTERVAL: 5 * 60 * 1000,
+      NEWS_REFRESH_INTERVAL: 15 * 60 * 1000
+    };
+    if (typeof window !== 'undefined') {
+      window.CONFIG = CONFIG;
+    }
+    </script>
     <script src="api.js"></script>
     <script src="news.js"></script>
     <script src="script.js"></script>

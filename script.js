@@ -167,7 +167,7 @@ async function loadData(forceRefresh = false) {
     updateIndex(data.value, data);
     
     // Update chart
-    if (data.historical) {
+    if (data.historical && AppState.chart) {
       updateChart(data.historical);
     }
     
@@ -176,8 +176,23 @@ async function loadData(forceRefresh = false) {
     
   } catch (error) {
     console.error('Error loading data:', error);
-    showError('Failed to load data. Using manual mode.');
-    AppState.manualMode = true;
+    showError('Failed to load live data. Showing demo mode.');
+    
+    // Use demo data
+    const demoData = {
+      value: 45,
+      classification: 'Fear',
+      timestamp: Date.now(),
+      historical: window.fearGreedAPI.generateMockHistorical()
+    };
+    
+    updateIndex(demoData.value, demoData);
+    
+    if (demoData.historical && AppState.chart) {
+      updateChart(demoData.historical);
+    }
+    
+    loadNews(demoData.value);
   } finally {
     showLoading(false);
   }
@@ -257,6 +272,13 @@ elements.randomBtn.addEventListener('click', () => {
 function initChart() {
   const ctx = document.getElementById('historyChart');
   if (!ctx) return;
+  
+  // Check if Chart.js is available
+  if (typeof Chart === 'undefined') {
+    console.warn('Chart.js not loaded - historical chart will not be available');
+    ctx.parentElement.innerHTML = '<p style="text-align: center; padding: 3rem; color: var(--text-secondary);">📊 Historical chart requires Chart.js library<br><small>The library may be blocked by browser security settings</small></p>';
+    return;
+  }
   
   AppState.chart = new Chart(ctx, {
     type: 'line',
