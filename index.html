@@ -3,79 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fear & Greed Index</title>
+    <title>Fear & Greed Index - Real-Time Market Sentiment Analysis</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Real-time Fear & Greed Index for cryptocurrency and stock markets. Track market sentiment with live data, historical charts, and relevant news.">
+    <meta name="keywords" content="fear greed index, market sentiment, crypto fear greed, stock market sentiment, bitcoin sentiment">
+    <meta name="author" content="Fear & Greed Index">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Fear & Greed Index - Real-Time Market Sentiment">
+    <meta property="og:description" content="Track market sentiment with real-time Fear & Greed Index data for crypto and stock markets.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dyomaz.github.io/Fearandgreed/">
+    <meta property="og:image" content="https://dyomaz.github.io/Fearandgreed/og-image.png">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fear & Greed Index - Real-Time Market Sentiment">
+    <meta name="twitter:description" content="Track market sentiment with real-time Fear & Greed Index data.">
+    <meta name="twitter:image" content="https://dyomaz.github.io/Fearandgreed/og-image.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Fear & Greed Index</h1>
-            <p class="subtitle">Market Sentiment Indicator</p>
-        </header>
+    <!-- Theme Toggle -->
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark/light theme">
+        <span class="theme-icon">🌙</span>
+    </button>
 
-        <main>
-            <div class="gauge-container">
-                <svg class="gauge" viewBox="0 0 200 120">
-                    <!-- Gauge background arcs -->
-                    <path d="M 20 100 A 80 80 0 0 1 180 100" 
-                          fill="none" 
-                          stroke="#d32f2f" 
-                          stroke-width="20" 
-                          stroke-linecap="round"/>
-                    <path d="M 35.2 85.2 A 80 80 0 0 1 68 38" 
-                          fill="none" 
-                          stroke="#ff6f00" 
-                          stroke-width="20" 
-                          stroke-linecap="round"/>
-                    <path d="M 76 32.8 A 80 80 0 0 1 124 32.8" 
-                          fill="none" 
-                          stroke="#ffd600" 
-                          stroke-width="20" 
-                          stroke-linecap="round"/>
-                    <path d="M 132 38 A 80 80 0 0 1 164.8 85.2" 
-                          fill="none" 
-                          stroke="#7cb342" 
-                          stroke-width="20" 
-                          stroke-linecap="round"/>
-                    <path d="M 168 92 A 80 80 0 0 1 180 100" 
-                          fill="none" 
-                          stroke="#2e7d32" 
-                          stroke-width="20" 
-                          stroke-linecap="round"/>
-                    
-                    <!-- Center circle -->
-                    <circle cx="100" cy="100" r="8" fill="#333"/>
-                    
-                    <!-- Needle -->
-                    <line id="needle" 
-                          x1="100" 
-                          y1="100" 
-                          x2="100" 
-                          y2="35" 
-                          stroke="#fff" 
-                          stroke-width="3" 
-                          stroke-linecap="round"/>
-                </svg>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">Fear & Greed Index</h1>
+                <nav class="nav">
+                    <button class="share-btn" id="shareBtn" aria-label="Share">
+                        <span>📤 Share</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
 
-                <div class="labels">
-                    <span class="label-left">Extreme Fear</span>
-                    <span class="label-right">Extreme Greed</span>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <!-- Mode Toggle -->
+            <div class="mode-toggle">
+                <button class="mode-btn active" data-mode="crypto" aria-label="Crypto mode">
+                    <span>🪙 Crypto</span>
+                </button>
+                <button class="mode-btn" data-mode="stock" aria-label="Stock market mode">
+                    <span>📈 Stock Market</span>
+                </button>
+            </div>
+
+            <!-- Main Gauge -->
+            <div class="gauge-card">
+                <div class="loading-overlay" id="loadingOverlay">
+                    <div class="spinner"></div>
+                    <p>Loading data...</p>
+                </div>
+                
+                <div class="gauge-container">
+                    <svg class="gauge" viewBox="0 0 200 120" aria-label="Fear and Greed gauge">
+                        <!-- Gauge background arcs -->
+                        <path d="M 20 100 A 80 80 0 0 1 180 100" 
+                              fill="none" 
+                              stroke="#d32f2f" 
+                              stroke-width="20" 
+                              stroke-linecap="round"/>
+                        <path d="M 35.2 85.2 A 80 80 0 0 1 68 38" 
+                              fill="none" 
+                              stroke="#ff6f00" 
+                              stroke-width="20" 
+                              stroke-linecap="round"/>
+                        <path d="M 76 32.8 A 80 80 0 0 1 124 32.8" 
+                              fill="none" 
+                              stroke="#ffd600" 
+                              stroke-width="20" 
+                              stroke-linecap="round"/>
+                        <path d="M 132 38 A 80 80 0 0 1 164.8 85.2" 
+                              fill="none" 
+                              stroke="#7cb342" 
+                              stroke-width="20" 
+                              stroke-linecap="round"/>
+                        <path d="M 168 92 A 80 80 0 0 1 180 100" 
+                              fill="none" 
+                              stroke="#2e7d32" 
+                              stroke-width="20" 
+                              stroke-linecap="round"/>
+                        
+                        <!-- Center circle -->
+                        <circle cx="100" cy="100" r="8" fill="#333"/>
+                        
+                        <!-- Needle -->
+                        <line id="needle" 
+                              x1="100" 
+                              y1="100" 
+                              x2="100" 
+                              y2="35" 
+                              stroke="#fff" 
+                              stroke-width="3" 
+                              stroke-linecap="round"/>
+                    </svg>
+
+                    <div class="labels">
+                        <span class="label-left">Extreme Fear</span>
+                        <span class="label-right">Extreme Greed</span>
+                    </div>
+                </div>
+
+                <div class="index-display">
+                    <div class="index-value" id="indexValue">50</div>
+                    <div class="index-label" id="indexLabel">Neutral</div>
+                    <div class="last-updated" id="lastUpdated">Loading...</div>
+                </div>
+
+                <div class="api-controls">
+                    <button class="btn btn-refresh" id="refreshBtn">
+                        <span>🔄 Refresh Data</span>
+                    </button>
+                    <button class="btn btn-manual" id="manualModeBtn">
+                        <span>🎛️ Manual Mode</span>
+                    </button>
                 </div>
             </div>
 
-            <div class="index-display">
-                <div class="index-value" id="indexValue">50</div>
-                <div class="index-label" id="indexLabel">Neutral</div>
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Current Value</div>
+                    <div class="stat-value" id="statCurrent">50</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">24h Change</div>
+                    <div class="stat-value" id="statChange">--</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">7-Day Trend</div>
+                    <div class="stat-value" id="statTrend">--</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Classification</div>
+                    <div class="stat-value" id="statClass">Neutral</div>
+                </div>
             </div>
+        </div>
+    </section>
 
-            <div class="controls">
+    <!-- Manual Controls (Hidden by default) -->
+    <section class="manual-controls" id="manualControls" style="display: none;">
+        <div class="container">
+            <div class="controls-card">
+                <h2>Manual Mode</h2>
+                <p class="controls-subtitle">Adjust the index manually for demonstration purposes</p>
+                
                 <div class="slider-container">
                     <input type="range" 
                            id="slider" 
                            min="0" 
                            max="100" 
                            value="50" 
-                           class="slider">
+                           class="slider"
+                           aria-label="Manual index slider">
                 </div>
 
                 <div class="buttons">
@@ -86,16 +186,90 @@
                     <button class="btn" data-value="90">Extreme Greed</button>
                 </div>
 
-                <button class="btn btn-random" id="randomBtn">Random Value</button>
+                <button class="btn btn-random" id="randomBtn">🎲 Random Value</button>
             </div>
+        </div>
+    </section>
 
-            <div class="info">
-                <p>The Fear & Greed Index measures market sentiment on a scale from 0 to 100. 
-                Lower values indicate extreme fear, while higher values indicate extreme greed.</p>
+    <!-- Historical Chart Section -->
+    <section class="chart-section">
+        <div class="container">
+            <h2 class="section-title">Historical Trend</h2>
+            <div class="chart-card">
+                <div class="chart-controls">
+                    <button class="chart-btn active" data-days="7">7 Days</button>
+                    <button class="chart-btn" data-days="30">30 Days</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="historyChart" aria-label="Historical trend chart"></canvas>
+                </div>
             </div>
-        </main>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section class="news-section">
+        <div class="container">
+            <h2 class="section-title">Market Sentiment News</h2>
+            <div class="news-grid" id="newsContainer">
+                <!-- News cards will be inserted here -->
+                <div class="loading-news">
+                    <div class="spinner"></div>
+                    <p>Loading news...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Section -->
+    <section class="info-section">
+        <div class="container">
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>📊 About the Index</h3>
+                    <p>The Fear & Greed Index measures market sentiment on a scale from 0 to 100. 
+                    Lower values indicate extreme fear, while higher values indicate extreme greed. 
+                    This tool helps investors understand the prevailing market mood.</p>
+                </div>
+                <div class="info-card">
+                    <h3>🔍 Data Sources</h3>
+                    <p><strong>Crypto Index:</strong> <a href="https://alternative.me" target="_blank" rel="noopener">Alternative.me</a><br>
+                    <strong>Stock Index:</strong> Various market indicators<br>
+                    <strong>News:</strong> Multiple financial news sources</p>
+                </div>
+                <div class="info-card">
+                    <h3>⚠️ Disclaimer</h3>
+                    <p>This information is for educational and informational purposes only. 
+                    It should not be considered financial advice. Always do your own research 
+                    and consult with a qualified financial advisor before making investment decisions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Fear & Greed Index. Data provided by Alternative.me and other sources.</p>
+            <p class="footer-links">
+                <a href="https://github.com/dyomaz/Fearandgreed" target="_blank" rel="noopener">GitHub</a> | 
+                <a href="#" id="privacyLink">Privacy</a> | 
+                <a href="#" id="termsLink">Terms</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Error Toast -->
+    <div class="toast" id="errorToast" style="display: none;">
+        <span class="toast-icon">⚠️</span>
+        <span class="toast-message" id="toastMessage"></span>
+        <button class="toast-close" id="toastClose">×</button>
     </div>
 
+    <!-- Scripts -->
+    <script src="config.example.js"></script>
+    <script src="api.js"></script>
+    <script src="news.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
