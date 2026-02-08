@@ -6,6 +6,58 @@ A professional, real-time Fear & Greed Index website that tracks market sentimen
 ![Version](https://img.shields.io/badge/Version-2.0-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
+![Website Preview](https://github.com/user-attachments/assets/73dc25c3-ef2a-459b-863e-ecddbae19f1c)
+
+---
+
+## 🎬 HOW TO PREVIEW THE WEBSITE
+
+**Want to see it in action? Here are 4 easy ways:**
+
+### 🚀 Method 1: Fastest Way (No Setup)
+
+**Just double-click `index.html` in your file browser!** That's it. 
+
+Or from command line:
+```bash
+open index.html        # macOS
+start index.html       # Windows  
+xdg-open index.html    # Linux
+```
+
+> ✅ **Works immediately** with demo data - no configuration needed!
+
+### 🌐 Method 2: Local Web Server (Recommended)
+
+For the best experience with all features:
+
+```bash
+# Python 3 (built-in on Mac/Linux)
+python3 -m http.server 8000
+# Then visit: http://localhost:8000
+
+# OR with Node.js
+npx http-server
+# Then visit: http://localhost:8080
+```
+
+### 🌍 Method 3: Live Deployment
+
+Deploy to GitHub Pages for a live URL:
+1. Enable GitHub Pages in repository Settings → Pages
+2. Select `main` branch, `/ (root)` folder
+3. Visit: `https://yourusername.github.io/Fearandgreed/`
+
+### 📖 Method 4: Detailed Guide
+
+**Need more help?** See **[PREVIEW.md](PREVIEW.md)** for:
+- Step-by-step screenshots
+- Troubleshooting tips
+- Alternative methods (VS Code, CodeSandbox, etc.)
+- Testing on different devices
+
+---
+
 ## ✨ Features
 
 ### 🔄 Real-Time API Integration
